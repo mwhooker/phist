@@ -91,9 +91,13 @@ if __name__ == '__main__':
     from itertools import imap
 
     if len(sys.argv) > 1:
-        with open(sys.argv[1]) as f:
-            hist = Histogram(imap(str.strip, f.readlines()))
+        fd = open(sys.argv[1])
+    elif not sys.stdin.isatty():
+        fd = sys.stdin
     else:
-        hist = Histogram(sys.stdin)
-    sys.stdout.write(hist.format())
+        sys.exit(-1)
+
+    sys.stdout.write(
+        Histogram(imap(str.strip, fd.readlines())).format()
+    )
     sys.stdout.write("\n")
