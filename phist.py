@@ -6,7 +6,7 @@ from collections import defaultdict, Mapping
 
 
 class Histogram(object):
-
+    BAR_CHAR = '*'
     SCALES = ('linear', 'log', 'ratio')
     SORTS = ('keys', 'values')
 
@@ -42,7 +42,7 @@ class Histogram(object):
         return '\n'.join(output)
 
     def _scale_linear(self, val):
-        return int(val) * '*'
+        return int(val) * BAR_CHAR
 
     def _scale_log(self, val, base=10):
         if base == 10:
@@ -50,7 +50,7 @@ class Histogram(object):
         else:
             log_val = math.log(val, base)
 
-        return int(log_val) * '*'
+        return int(log_val) * BAR_CHAR
 
     def _scale_ratio(self, val, line_width=80):
         max_val = max(self.dataset.values())
@@ -98,6 +98,6 @@ if __name__ == '__main__':
         sys.exit(-1)
 
     sys.stdout.write(
-        Histogram(imap(str.strip, fd.readlines())).format()
+        Histogram(imap(str.strip, fd)).format()
     )
     sys.stdout.write("\n")
